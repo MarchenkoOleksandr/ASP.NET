@@ -1,0 +1,73 @@
+﻿@model List<SelectListItem>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Order</h4>
+    <hr />
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"> </th>
+                <th scope="col">Услуга</th>
+                <th scope="col">Необходимое время</th>
+                <th scope="col">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(m => m[i].Selected)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m[i].Text)
+                        @Html.HiddenFor(m => m[i].Value)
+                        @Html.HiddenFor(m => m[i].Text)
+                    </td>
+                    <td>
+                        @ViewData["time" + i]
+                    </td>
+                    <td>
+                        @ViewData["price" + i] грн.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
